@@ -7,7 +7,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
         <!-- Include jQuery -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
 <!-- Include Simple Slider JavaScript and CSS -->
 <script src="slider/js/simple-slider.js"></script>
@@ -21,27 +20,26 @@
 
     </head>
 
+    <div id="divSlider"><input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"/><label id="labelSlider">0,2</label></div>
+
     <body>
+        <div id="containerLogo">
     	<div id="logo">
     		<h1>WebSem 3000</h1>
-    		Le moteur de recherche des vrais bonhommes
-            <input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/>
+    		<span id="moteur">Le moteur de recherche des vrais bonhommes<span><br>
+            <div id="requette"><input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/></div>
             <!-- Activate Simple Slider on your input -->
-            <input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"><label id="labelSlider">0,2</label>
+            
 
     	</div>
+        </div>
 
-    	<div id="listeResultat">
-            <a href="http://sdlbsdflhsdblsd">http://www.le-lien.fdsqlibgsdly</a>
+        <div id="container">
+        	<div id="listeResultat">
+                <a href="http://sdlbsdflhsdblsd">http://www.le-lien.fdsqlibgsdly</a>
 
-
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br>
-
-    	</div>
-
-	    	
+        	</div>
+        </div>
 
     </body>
 
@@ -67,10 +65,13 @@
 
 
         $('#submit').click(function(){
+            
             var req = $('#req').val();
             //semanticSearch(req);
-            semanticRank(0.02);
-            alert("testFIN");
+            
+            //semanticRank(0.02);
+            //alert("testFIN");
+            layout();
         });
 
 
@@ -98,7 +99,7 @@
             for(var i = 0;i < lines.length;i++){
                 //code here using lines[i] which will give you each line
                 var url = lines[i];
-                $('#listeResultat').append('<div class="resultat"><span class="name">'+getNameURL(url)+'</span><br>');
+                $('#listeResultat').append('<div class="resultat"><a href="'+url+'" class="name">'+getNameURL(url)+'</a><br>');
                 $('#listeResultat').append('<span class="url">'+url+'</span></div>');
             }
 
@@ -138,6 +139,24 @@
                 }
             });
             return "title";
+        }
+
+        function layout(){
+
+            $('#container').animate({
+                
+                top:'75px'
+            }, 1000);
+
+            $('#containerLogo').animate({
+                top:'-250px'
+            });
+
+            $('#logo').animate({
+                width: '100%',
+                padding: '35px -1px',
+                border: 'none'
+            });
         }
 
             
