@@ -27,17 +27,13 @@
     		Le moteur de recherche des vrais bonhommes
             <input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/>
             <!-- Activate Simple Slider on your input -->
-            <input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"><label id="labelSlider">0,2</label>
+            <input id="slider" type="text" data-slider-step="1" data-slider-range="0,20" data-slider="true" data-slider-highlight="true"><label id="labelSlider">0,2</label>
 
     	</div>
 
     	<div id="listeResultat">
             <a href="http://sdlbsdflhsdblsd">http://www.le-lien.fdsqlibgsdly</a>
 
-
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br>
 
     	</div>
 
@@ -58,7 +54,7 @@
             val = val.toFixed(2);
 
             console.log("New val :"+val);
-            semanticRank(val);
+            traitement(semanticRank(val));
 
           // The value as a ratio of the slider (between 0 and 1)
           //alert(data.ratio);
@@ -68,12 +64,38 @@
 
         $('#submit').click(function(){
             var req = $('#req').val();
-            //semanticSearch(req);
-            semanticRank(0.02);
-            alert("testFIN");
+            //var txt = semanticSearch("\""+req+"\" 10 0.02");
+            var txt = semanticRank(0.02);
+            traitement(txt);
         });
 
+        function newImg(maxwidth,src){
+            //var canvas = document.getElementById("canvas");
+            //var ctx = canvas.getContext("2d");
 
+            img = new Image();
+            var oc = document.createElement('canvas');
+            img.onload = function () {
+
+                //canvas.height = canvas.width * (img.height / img.width);
+
+                /// step 1
+                var octx = oc.getContext('2d');
+
+                //oc.width = img.width * 0.5;
+                oc.width = maxwidth;
+                oc.height = maxwidth*img.height/img.width;
+                octx.drawImage(img, 0, 0, oc.width, oc.height);
+
+                /// step 2
+                //octx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5);
+
+                ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,
+                0, 0, canvas.width, canvas.height);
+            }
+            img.src = src;
+            return oc;
+        }
         function semanticSearch(search)
         {
             var request=new XMLHttpRequest();
@@ -81,7 +103,7 @@
             var txt = "\""+search+"\" 5 0.05";
             console.log("Request search sent");
             request.send(search); // bloquant
-            traitement(request.responseText);
+            return request.responseText.trim();
         }
         function semanticRank(search)
         {
@@ -89,30 +111,131 @@
             request.open("POST","http://localhost:4500/rank",false);
             console.log("Request rank sent");
             request.send(search); // bloquant
-            traitement(request.responseText);
+            return request.responseText.trim();
+        }
+        function semanticMetaData(url, args, callback)
+        {
+            console.log("semanticMetaData : "+url);
+            var request=new XMLHttpRequest();
+            request.open("POST","http://localhost:4500/meta",true);
+            request.onload = function() {
+                if (request.readyState === 4) { 
+                    if (request.status === 200) {
+                        callback(eval("(" + request.responseText + ')'), args);
+                    } else {
+                        console.error(request.statusText);
+                    }
+                }
+            };
+            request.send(url); // bloquant
+            /*var json = eval("(" + request.responseText + ')');
+            console.log(json);
+            return json;*/
         }
 
+        function setMetaResult(meta, args){
+            var res = args[0];
+            var url = args[1];
+            if(meta && res && url){
+                meta.title = meta.title.trim();
 
-        function traitement(text){
-            var lines = text.split('\n');
-            for(var i = 0;i < lines.length;i++){
-                //code here using lines[i] which will give you each line
-                var url = lines[i];
-                $('#listeResultat').append('<div class="resultat"><span class="name">'+getNameURL(url)+'</span><br>');
-                $('#listeResultat').append('<span class="url">'+url+'</span></div>');
+                /*var table = document.createElement("table");
+                var tr2 = document.createElement("tr");
+                tr2.setAttribute("colspan",2);
+                var c1 = document.createElement("td");
+                var c2 = document.createElement("td");
+                var tr1 = document.createElement("tr");
+                //tr1.setAttribute("colspan",2);
+                res.appendChild(table);
+                table.appendChild(tr1);
+                table.appendChild(tr2);
+                tr2.appendChild(c1);
+                tr2.appendChild(c2);*/
+                var tr = document.createElement("tr");
+                var c1 = document.createElement("td");
+                var c2 = document.createElement("td");
+
+                var title = document.createElement("a")
+                title.className = "title";
+                title.href = url;
+                title.appendChild(document.createTextNode(meta.title));
+
+                var urlnode = document.createElement("span");
+                urlnode.className = "snippet";
+                urlnode.appendChild(document.createTextNode(meta.description));
+
+                res.appendChild(title);
+                res.appendChild(document.createElement("br"));
+                res.appendChild(tr);
+                tr.appendChild(c1);
+                tr.appendChild(c2);
+
+                c2.appendChild(urlnode);
+
+                if(meta.image){
+                    var imgnode = newImg(200,meta.image);
+                    //imgnode.src = meta.image;
+                    //imgnode.alt = meta.title;
+                    c1.appendChild(imgnode);
+                }
             }
 
         }
 
-        function getNameURL(url){
-            url = url.trim();
+        function traitement(text){
+            var lines = text.split('\n');
+            var div = document.getElementById("listeResultat");
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            for(var i = 0;i < lines.length;i++){
+                console.log(lines[i]);
+                //code here using lines[i] which will give you each line
+                var url = lines[i];
+
+                /*var json = semanticMetaData(url);
+                console.log(json);*/
+
+                var res = document.createElement("div");
+                res.className = "resultat";
+                /*var title = document.createElement("a")
+                title.className = "title";
+                title.href = url;
+                var urlnode = document.createElement("span");
+                urlnode.className = "url";
+
+                var pageName = document.createTextNode("Title "+i);*/
+                semanticMetaData(url,[res,url],setMetaResult);
+
+                //title.appendChild(pageName);
+                //urlnode.appendChild(document.createTextNode("url"));
+
+                //res.appendChild(title);
+                //res.appendChild(document.createElement("br"));
+                //res.appendChild(urlnode);
+                div.appendChild(res);
+                //$('#listeResultat').append('<div class="resultat"><span class="name">'+getNameURL(url)+'</span><br>');
+                //$('#listeResultat').append('<span class="url">'+url+'</span></div>');
+            }
+
+        }
+
+        function setNameURL(url, textNode){
+            $.get(url, 
+                function(data) {
+                   console.log(data);//$(data).find('meta[name=adescription]').attr("content");
+                }
+            );
+            /*url = url.trim();
             //console.log(url);
             //console.log("char : " + url.charAt(url.length-1));
             if( url.charAt(url.length-1) == '/'){
                 url = url.substring(0,url.length-1);
             }
-            /*
+            
             var request=new XMLHttpRequest();
+            if (request.overrideMimeType)
+                request.overrideMimeType('text/html');
             console.log("url : "+url);
             request.open("GET",url,false);
             //request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
@@ -123,6 +246,7 @@
             console.log(doc.getElementsByTagName("title")[0]);
             return ""+doc.getElementsByTagName("title")[0].innerHTML;
             */
+            /*
             //console.log(xmlDoc.getElementByTagName("title"));
             var title = "";
             $.ajax({
@@ -137,7 +261,7 @@
                     title =  "Pas de titre";
                 }
             });
-            return "title";
+            return "title";*/
         }
 
             
