@@ -105,22 +105,39 @@
         }
 
         function getNameURL(url){
+            url = url.trim();
+            //console.log(url);
+            //console.log("char : " + url.charAt(url.length-1));
+            if( url.charAt(url.length-1) == '/'){
+                url = url.substring(0,url.length-1);
+            }
+            /*
             var request=new XMLHttpRequest();
+            console.log("url : "+url);
             request.open("GET",url,false);
+            //request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            //request.setRequestHeader("Access-Control-Allow-Origin","*");
             request.send(null); // bloquant
-            xmlDoc=xmlhttp.responseXML;
-            console.log(xmlDoc.getElementByTagName("title"));
-            /*$.ajax({
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(request.responseText,"text/xml");
+            console.log(doc.getElementsByTagName("title")[0]);
+            return ""+doc.getElementsByTagName("title")[0].innerHTML;
+            */
+            //console.log(xmlDoc.getElementByTagName("title"));
+            var title = "";
+            $.ajax({
+                async: true,
                 url: url,
                 success: function(responseHtml) {
                     var newTitle = $(responseHtml).filter('title').text();
-                    return newTitle;
+                    console.log(newTitle);
                 },
                 error: function(  jqXHR, textStatus, errorThrown ) {
                     console.log( jqXHR+', & '+textStatus+', & '+errorThrown );
-                    return "Pas de titre";
+                    title =  "Pas de titre";
                 }
-            });*/
+            });
+            return "title";
         }
 
             
