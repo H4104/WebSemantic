@@ -1,0 +1,99 @@
+@font-face {
+  font-family: 'regular';
+  src: url('font/SourceSansPro-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'bold';
+  src: url('font/SourceSansPro-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'thin';
+  src:url('font/SourceSansPro-ExtraLight.ttf');
+}
+@font-face {
+  font-family: 'light';
+  src:url('font/SourceSansPro-Light.ttf');
+}
+@font-face {
+  font-family: 'dearJoe4';
+  src:url('font/dJ4TRIAL.ttf');
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td
+{
+	margin:0;
+	padding:0;
+	vertical-align:baseline;
+}
+
+html
+{
+    min-width:755px;
+	height: 100%;
+}
+
+body
+{
+	display : table;
+  	height: 100%;
+  	width:100%;
+  	background-color: #ecf0f1;
+	background: white;
+	font-family: regular,arial,Verdana,Helvetica;
+	font-size: 17px;
+}
+
+#logo
+{
+	margin:auto;
+	margin-top: 100px;
+	margin-bottom: 50px;
+
+	width: 400px;
+	padding:25px;
+	text-align: center;
+
+	border : 1.5px solid black;
+	border-radius: 10px;
+}
+
+input
+{
+	margin-top: 40px;
+	margin-right: 10px;
+	margin-left: 10px;
+	line-height: 20px;
+	padding:2px;
+}
+
+
+h1
+{
+	font-size: 2.5em;
+	font-family: bold;
+	text-align: center;
+	margin-bottom: 25px;
+	/*color: #ecf0f1;
+
+	/*margin: 50px 20% 40px -1000px;
+	padding: 0px 150px 0px 5px;*/
+}
+
+#listeResultat
+{
+	border-top: 1px solid grey;
+	box-shadow: -1px 2px 10px 1px rgba(0, 0, 0, 0.3) inset;
+	padding:10px;
+}
+
+a
+{
+	margin-left:10px;
+}
+
+#slider
+{
+	margin:20px;
+}

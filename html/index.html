@@ -3,9 +3,18 @@
     <head>
         <!-- En-tête de la page -->
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="header.css" />
         <link rel="stylesheet" href="index.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+        <!-- Include jQuery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<!-- Include Simple Slider JavaScript and CSS -->
+<script src="slider/js/simple-slider.js"></script>
+<link href="slider/css/simple-slider.css" rel="stylesheet" type="text/css" />
+
+
+
 
 
         <title>WebSem 3000 : Le moteur de recherche des vrais bonhommes</title>
@@ -17,6 +26,8 @@
     		<h1>WebSem 3000</h1>
     		Le moteur de recherche des vrais bonhommes
             <input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/>
+            <!-- Activate Simple Slider on your input -->
+            <input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"><label id="labelSlider">0,2</label>
 
     	</div>
 
@@ -36,21 +47,51 @@
 
     <script type="text/javascript">
 
+        //$("#slider").simpleSlider("setValue", 2);
+
+        $("#slider").bind("slider:changed", function (event, data) {
+          // The currently selected value of the slider
+          //alert(data.value);
+            $('#labelSlider').html(data.value);
+
+            var val = data.value / 100;
+            val = val.toFixed(2);
+
+            console.log("New val :"+val);
+            semanticRank(val);
+
+          // The value as a ratio of the slider (between 0 and 1)
+          //alert(data.ratio);
+        });
+
+
+
         $('#submit').click(function(){
             var req = $('#req').val();
-            loadXMLDoc(req);
+            //semanticSearch(req);
+            semanticRank(0.02);
             alert("testFIN");
         });
 
 
-        function loadXMLDoc(search)
+        function semanticSearch(search)
         {
             var request=new XMLHttpRequest();
             request.open("POST","http://localhost:4500/search",false);
-
+            var txt = "\""+search+"\" 5 0.05";
+            console.log("Request search sent");
             request.send(search); // bloquant
             traitement(request.responseText);
         }
+        function semanticRank(search)
+        {
+            var request=new XMLHttpRequest();
+            request.open("POST","http://localhost:4500/rank",false);
+            console.log("Request rank sent");
+            request.send(search); // bloquant
+            traitement(request.responseText);
+        }
+
 
         function traitement(text){
             var lines = text.split('\n');
@@ -64,7 +105,12 @@
         }
 
         function getNameURL(url){
-            $.ajax({
+            var request=new XMLHttpRequest();
+            request.open("GET",url,false);
+            request.send(null); // bloquant
+            xmlDoc=xmlhttp.responseXML;
+            console.log(xmlDoc.getElementByTagName("title"));
+            /*$.ajax({
                 url: url,
                 success: function(responseHtml) {
                     var newTitle = $(responseHtml).filter('title').text();
@@ -74,7 +120,7 @@
                     console.log( jqXHR+', & '+textStatus+', & '+errorThrown );
                     return "Pas de titre";
                 }
-            });
+            });*/
         }
 
             
