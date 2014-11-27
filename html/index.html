@@ -69,11 +69,11 @@
             traitement(txt);
         });
 
-        function newImg(maxwidth,src){
+        function newImg(maxwidth,maxheight,src){
             //var canvas = document.getElementById("canvas");
             //var ctx = canvas.getContext("2d");
 
-            img = new Image();
+            var img = new Image();
             var oc = document.createElement('canvas');
             img.onload = function () {
 
@@ -83,16 +83,20 @@
                 var octx = oc.getContext('2d');
 
                 //oc.width = img.width * 0.5;
-                oc.width = maxwidth;
-                oc.height = maxwidth*img.height/img.width;
+                if(img.width > img.height){
+                    oc.width = maxwidth;
+                    oc.height = maxwidth*img.height/img.width;
+                } else {
+                    oc.height = maxheight;
+                    oc.width = maxheight*img.width/img.height;
+                }
                 octx.drawImage(img, 0, 0, oc.width, oc.height);
 
                 /// step 2
                 //octx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5);
 
-                ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,
-                0, 0, canvas.width, canvas.height);
-            }
+                //ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,0, 0, canvas.width, canvas.height);
+            };
             img.src = src;
             return oc;
         }
@@ -173,7 +177,7 @@
                 c2.appendChild(urlnode);
 
                 if(meta.image){
-                    var imgnode = newImg(200,meta.image);
+                    var imgnode = newImg(200,200,meta.image);
                     //imgnode.src = meta.image;
                     //imgnode.alt = meta.title;
                     c1.appendChild(imgnode);
