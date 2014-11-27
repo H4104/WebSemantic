@@ -141,32 +141,26 @@
             var res = args[0];
             var url = args[1];
             if(meta && res && url){
+                console.log(meta);
                 meta.title = meta.title.trim();
 
-                /*var table = document.createElement("table");
-                var tr2 = document.createElement("tr");
-                tr2.setAttribute("colspan",2);
-                var c1 = document.createElement("td");
-                var c2 = document.createElement("td");
-                var tr1 = document.createElement("tr");
-                //tr1.setAttribute("colspan",2);
-                res.appendChild(table);
-                table.appendChild(tr1);
-                table.appendChild(tr2);
-                tr2.appendChild(c1);
-                tr2.appendChild(c2);*/
                 var tr = document.createElement("tr");
                 var c1 = document.createElement("td");
                 var c2 = document.createElement("td");
 
                 var title = document.createElement("a")
-                title.className = "title";
+                title.className = "main-link";
                 title.href = url;
                 title.appendChild(document.createTextNode(meta.title));
 
-                var urlnode = document.createElement("span");
-                urlnode.className = "snippet";
-                urlnode.appendChild(document.createTextNode(meta.description));
+                var urlsnippet = document.createElement("a");
+                urlsnippet.href = url;
+                urlsnippet.appendChild(document.createTextNode(url));
+                urlsnippet.className = "sublink";
+
+                var snippet = document.createElement("span");
+                snippet.className = "snippet";
+                snippet.appendChild(document.createTextNode(meta.description));
 
                 res.appendChild(title);
                 res.appendChild(document.createElement("br"));
@@ -174,13 +168,22 @@
                 tr.appendChild(c1);
                 tr.appendChild(c2);
 
-                c2.appendChild(urlnode);
+                c2.appendChild(urlsnippet);
+                c2.appendChild(document.createElement("br"));
+                c2.appendChild(snippet);
 
                 if(meta.image){
                     var imgnode = newImg(200,200,meta.image);
                     //imgnode.src = meta.image;
                     //imgnode.alt = meta.title;
                     c1.appendChild(imgnode);
+                }
+                if(meta.keywords){
+                    var keywords = document.createElement("span");
+                    keywords.className = "keywords";
+                    keywords.appendChild(document.createTextNode(meta.keywords));
+                    c2.appendChild(document.createElement("br"));
+                    c2.appendChild(keywords);
                 }
             }
 
@@ -193,79 +196,18 @@
                 div.removeChild(div.firstChild);
             }
             for(var i = 0;i < lines.length;i++){
-                console.log(lines[i]);
+                //console.log(lines[i]);
                 //code here using lines[i] which will give you each line
                 var url = lines[i];
 
-                /*var json = semanticMetaData(url);
-                console.log(json);*/
-
                 var res = document.createElement("div");
                 res.className = "resultat";
-                /*var title = document.createElement("a")
-                title.className = "title";
-                title.href = url;
-                var urlnode = document.createElement("span");
-                urlnode.className = "url";
 
-                var pageName = document.createTextNode("Title "+i);*/
                 semanticMetaData(url,[res,url],setMetaResult);
 
-                //title.appendChild(pageName);
-                //urlnode.appendChild(document.createTextNode("url"));
-
-                //res.appendChild(title);
-                //res.appendChild(document.createElement("br"));
-                //res.appendChild(urlnode);
                 div.appendChild(res);
-                //$('#listeResultat').append('<div class="resultat"><span class="name">'+getNameURL(url)+'</span><br>');
-                //$('#listeResultat').append('<span class="url">'+url+'</span></div>');
             }
 
-        }
-
-        function setNameURL(url, textNode){
-            $.get(url, 
-                function(data) {
-                   console.log(data);//$(data).find('meta[name=adescription]').attr("content");
-                }
-            );
-            /*url = url.trim();
-            //console.log(url);
-            //console.log("char : " + url.charAt(url.length-1));
-            if( url.charAt(url.length-1) == '/'){
-                url = url.substring(0,url.length-1);
-            }
-            
-            var request=new XMLHttpRequest();
-            if (request.overrideMimeType)
-                request.overrideMimeType('text/html');
-            console.log("url : "+url);
-            request.open("GET",url,false);
-            //request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-            //request.setRequestHeader("Access-Control-Allow-Origin","*");
-            request.send(null); // bloquant
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(request.responseText,"text/xml");
-            console.log(doc.getElementsByTagName("title")[0]);
-            return ""+doc.getElementsByTagName("title")[0].innerHTML;
-            */
-            /*
-            //console.log(xmlDoc.getElementByTagName("title"));
-            var title = "";
-            $.ajax({
-                async: true,
-                url: url,
-                success: function(responseHtml) {
-                    var newTitle = $(responseHtml).filter('title').text();
-                    console.log(newTitle);
-                },
-                error: function(  jqXHR, textStatus, errorThrown ) {
-                    console.log( jqXHR+', & '+textStatus+', & '+errorThrown );
-                    title =  "Pas de titre";
-                }
-            });
-            return "title";*/
         }
 
             

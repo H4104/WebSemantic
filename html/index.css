@@ -93,9 +93,29 @@ div.resultat:hover
 	background: #efefff;
 }
 
+div.resultat
+{
+	color: #303030;
+}
+
 a
 {
 	margin-left:10px;
+}
+a.main-link
+{
+	font-size: 20;
+	font-weight: bold;
+	text-decoration: none;
+}
+a.sublink
+{
+	color: #a0a0a0;
+}
+
+.keywords{
+	font-size: 14px;
+	color: #AABF7E;
 }
 
 #slider
