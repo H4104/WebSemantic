@@ -97,9 +97,11 @@ public class ComparateurGraphes {
     }
 
     public void afficher(PrintStream sortie){
+        sortie.println("#DEBUT");
         for(Graphe g: getClassement()){
-            System.out.println(g.getNom());
+            sortie.println(g.getNom());
         }
+        sortie.println("#FIN");
     }
 
 }
