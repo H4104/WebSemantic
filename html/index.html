@@ -25,6 +25,8 @@
     <body>
         <div id="divSlider"><input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"/><label id="labelSlider">0,2</label></div>
 
+	<h1 id="webSem">WebSem 3000</h1>
+
         <div id="progressBar"><div id="img"></div></div>
 
         <div id="containerLogo">
@@ -162,6 +164,10 @@
                 padding: '35px -1px',
                 border: 'none'
             });
+
+	    $('#webSem').animate({
+                opacity: '100'
+            },50000);
         }
 
         function progress(){
