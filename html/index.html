@@ -51,6 +51,12 @@
 
     <script type="text/javascript">
 
+	$('#req').keyup(function(e){
+		if(e.keyCode == 13){
+			submit();
+		}
+	});
+
         //$("#slider").simpleSlider("setValue", 2);
 
         $("#slider").bind("slider:changed", function (event, data) {
@@ -72,7 +78,11 @@
 
 
         $('#submit').click(function(){
-            progress();
+            submit();
+        });
+
+	function submit(){
+		progress();
             var req = $('#req').val();
             lastRequest = "\""+req+"\"";
             var txt = semanticSearch("\""+req+"\" 10 0.02");
@@ -80,7 +90,7 @@
             traitement(txt);
             progressOff();
             layout();
-        });
+	}
 
         function newImg(maxwidth,maxheight,src){
             //var canvas = document.getElementById("canvas");
