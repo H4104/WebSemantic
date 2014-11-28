@@ -26,16 +26,16 @@
     <body>
         <div id="divSlider"><p>Coefficient max : <span id="coef-max"></span> </p><input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"/><label id="labelSlider">2</label></div>
 
-	<h1 id="webSem">SemaTV</h1>
+	<h1 id="webSem">SemanTV</h1>
 
         <div id="progressBar"><div id="img"></div></div>
 
         <div id="containerLogo">
     	<div id="logo">
 
-    		<h1>SemaTV</h1>
+    		<h1>SemanTV</h1>
     		<span id="moteur">Le moteur de recherche 100% TV<span><br>
-            <div id="requette"><input id="req" type="text" placeholder="Tapez votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/></div>
+            <div id="requette"><input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/></div>
             <!-- Activate Simple Slider on your input -->
             
     	</div>
@@ -255,22 +255,18 @@
             }, 1000);
 
             $('#containerLogo').animate({
-                top:'-160px'
-            },1000);
+                top:'-250px'
+            });
 
             $('#logo').animate({
                 width: '100%',
                 padding: '35px -1px',
                 border: 'none'
-            },1000);
+            });
 
             $('#webSem').animate({
                 opacity: '100'
             },50000);
-
-            $("#divSlider").css({
-                visibility: "visible"
-            });
         }
 
         function progress(){
