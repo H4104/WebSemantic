@@ -8,7 +8,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
         <!-- Include jQuery -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
 <!-- Include Simple Slider JavaScript and CSS -->
 <script src="slider/js/simple-slider.js"></script>
@@ -22,19 +21,47 @@
 
     </head>
 
+    
+
     <body>
+        <div id="divSlider"><input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"/><label id="labelSlider">0,2</label></div>
+
+	<h1 id="webSem">WebSem 3000</h1>
+
+        <div id="progressBar"><div id="img"></div></div>
+
+        <div id="containerLogo">
     	<div id="logo">
+<<<<<<< HEAD
     		<h1>SemanTV</h1>
     		Le moteur de recherche 100% TV
             <input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/>
             <!-- Activate Simple Slider on your input -->
             <input id="slider" type="text" data-slider-step="1" data-slider-range="0,20" data-slider="true" data-slider-highlight="true"><label id="labelSlider">0,5</label>
-    	</div>
+=======
+    		<h1>WebSem 3000</h1>
+    		<span id="moteur">Le moteur de recherche des vrais bonhommes<span><br>
+            <div id="requette"><input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/></div>
+            <!-- Activate Simple Slider on your input -->
+            
 
+>>>>>>> origin/AnimationHtml
+    	</div>
+        </div>
+
+<<<<<<< HEAD
     	<div id="listeResultat">
     	</div>
 
 	    	
+=======
+        <div id="container">
+        	<div id="listeResultat">
+                <a href="http://sdlbsdflhsdblsd">http://www.le-lien.fdsqlibgsdly</a>
+
+        	</div>
+        </div>
+>>>>>>> origin/AnimationHtml
 
     </body>
 
@@ -60,10 +87,20 @@
 
 
         $('#submit').click(function(){
+            progress();
             var req = $('#req').val();
+<<<<<<< HEAD
             var txt = semanticSearch("\""+req+"\" 10 0.02");
             //var txt = semanticRank(0.02);
             traitement(txt);
+=======
+            //semanticSearch(req);
+            
+            //semanticRank(0.02);
+            //alert("testFIN");
+            progressOff();
+            layout();
+>>>>>>> origin/AnimationHtml
         });
 
         function newImg(maxwidth,maxheight,src){
@@ -200,6 +237,12 @@
                 //console.log(lines[i]);
                 //code here using lines[i] which will give you each line
                 var url = lines[i];
+<<<<<<< HEAD
+=======
+                $('#listeResultat').append('<div class="resultat"><a href="'+url+'" class="name">'+getNameURL(url)+'</a><br>');
+                $('#listeResultat').append('<span class="url">'+url+'</span></div>');
+            }
+>>>>>>> origin/AnimationHtml
 
                 var res = document.createElement("div");
                 res.className = "resultat";
@@ -209,6 +252,58 @@
                 div.appendChild(res);
             }
 
+        }
+
+        function layout(){
+
+            $('#container').animate({
+                
+                top:'75px'
+            }, 1000);
+
+            $('#containerLogo').animate({
+                top:'-250px'
+            });
+
+            $('#logo').animate({
+                width: '100%',
+                padding: '35px -1px',
+                border: 'none'
+            });
+
+	    $('#webSem').animate({
+                opacity: '100'
+            },50000);
+        }
+
+        function progress(){
+            $('#progressBar').css({
+                visibility:'visible'
+            });
+
+            $('#progressBar').animate({
+                opacity:'100'
+                /*top: '-2000px'*/
+            },10000);
+
+            $('#img').animate({
+                opacity:'100'
+            },20000);
+        }
+
+        function progressOff(){
+            $('#img').animate({
+                opacity:'0'
+            },20000);
+
+            $('#progressBar').animate({
+                opacity:'0'
+                /*top: '-2000px'*/
+            },10000);
+
+            $('#progressBar').css({
+                visibility:'hidden'
+            });
         }
 
             
