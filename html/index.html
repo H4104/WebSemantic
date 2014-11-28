@@ -17,7 +17,7 @@
 
 
 
-        <title>SemanTV : Le moteur de recherche 100% TV</title>
+        <title>SemaTV : Le moteur de recherche 100% TV</title>
 
     </head>
 
@@ -26,42 +26,26 @@
     <body>
         <div id="divSlider"><input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"/><label id="labelSlider">0,2</label></div>
 
-	<h1 id="webSem">WebSem 3000</h1>
+	<h1 id="webSem">SemanTV</h1>
 
         <div id="progressBar"><div id="img"></div></div>
 
         <div id="containerLogo">
     	<div id="logo">
-<<<<<<< HEAD
+
     		<h1>SemanTV</h1>
-    		Le moteur de recherche 100% TV
-            <input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/>
-            <!-- Activate Simple Slider on your input -->
-            <input id="slider" type="text" data-slider-step="1" data-slider-range="0,20" data-slider="true" data-slider-highlight="true"><label id="labelSlider">0,5</label>
-=======
-    		<h1>WebSem 3000</h1>
-    		<span id="moteur">Le moteur de recherche des vrais bonhommes<span><br>
+    		<span id="moteur">Le moteur de recherche 100% TV<span><br>
             <div id="requette"><input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/></div>
             <!-- Activate Simple Slider on your input -->
             
-
->>>>>>> origin/AnimationHtml
     	</div>
         </div>
 
-<<<<<<< HEAD
-    	<div id="listeResultat">
-    	</div>
-
-	    	
-=======
         <div id="container">
         	<div id="listeResultat">
-                <a href="http://sdlbsdflhsdblsd">http://www.le-lien.fdsqlibgsdly</a>
 
         	</div>
         </div>
->>>>>>> origin/AnimationHtml
 
     </body>
 
@@ -79,6 +63,7 @@
 
             console.log("New val :"+val);
             traitement(semanticRank(val));
+            layout();
 
           // The value as a ratio of the slider (between 0 and 1)
           //alert(data.ratio);
@@ -89,18 +74,11 @@
         $('#submit').click(function(){
             progress();
             var req = $('#req').val();
-<<<<<<< HEAD
-            var txt = semanticSearch("\""+req+"\" 10 0.02");
-            //var txt = semanticRank(0.02);
+            //var txt = semanticSearch("\""+req+"\" 10 0.02");
+            var txt = semanticRank(0.02);
             traitement(txt);
-=======
-            //semanticSearch(req);
-            
-            //semanticRank(0.02);
-            //alert("testFIN");
             progressOff();
             layout();
->>>>>>> origin/AnimationHtml
         });
 
         function newImg(maxwidth,maxheight,src){
@@ -237,12 +215,6 @@
                 //console.log(lines[i]);
                 //code here using lines[i] which will give you each line
                 var url = lines[i];
-<<<<<<< HEAD
-=======
-                $('#listeResultat').append('<div class="resultat"><a href="'+url+'" class="name">'+getNameURL(url)+'</a><br>');
-                $('#listeResultat').append('<span class="url">'+url+'</span></div>');
-            }
->>>>>>> origin/AnimationHtml
 
                 var res = document.createElement("div");
                 res.className = "resultat";
@@ -271,7 +243,7 @@
                 border: 'none'
             });
 
-	    $('#webSem').animate({
+            $('#webSem').animate({
                 opacity: '100'
             },50000);
         }
