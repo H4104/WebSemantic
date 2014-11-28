@@ -3,6 +3,7 @@
     <head>
         <!-- En-tête de la page -->
         <meta charset="utf-8" />
+        <meta name="description" content="Ce site web vous propose de rechercher des films, des séries, etc..." />
         <link rel="stylesheet" href="index.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
@@ -16,33 +17,32 @@
 
 
 
-        <title>WebSem 3000 : Le moteur de recherche des vrais bonhommes</title>
+        <title>SemaTV : Le moteur de recherche 100% TV</title>
 
     </head>
 
     
 
     <body>
-        <div id="divSlider"><input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"/><label id="labelSlider">0,2</label></div>
+        <div id="divSlider"><p>Coefficient max : <span id="coef-max"></span> </p><input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"/><label id="labelSlider">2</label></div>
 
-	<h1 id="webSem">WebSem 3000</h1>
+	<h1 id="webSem">SemanTV</h1>
 
         <div id="progressBar"><div id="img"></div></div>
 
         <div id="containerLogo">
     	<div id="logo">
-    		<h1>WebSem 3000</h1>
-    		<span id="moteur">Le moteur de recherche des vrais bonhommes<span><br>
+
+    		<h1>SemanTV</h1>
+    		<span id="moteur">Le moteur de recherche 100% TV<span><br>
             <div id="requette"><input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/></div>
             <!-- Activate Simple Slider on your input -->
             
-
     	</div>
         </div>
 
         <div id="container">
         	<div id="listeResultat">
-                <a href="http://sdlbsdflhsdblsd">http://www.le-lien.fdsqlibgsdly</a>
 
         	</div>
         </div>
@@ -50,6 +50,12 @@
     </body>
 
     <script type="text/javascript">
+
+	$('#req').keyup(function(e){
+		if(e.keyCode == 13){
+			submit();
+		}
+	});
 
         //$("#slider").simpleSlider("setValue", 2);
 
@@ -62,7 +68,8 @@
             val = val.toFixed(2);
 
             console.log("New val :"+val);
-            semanticRank(val);
+            traitement(semanticRank(lastRequest+" "+val));
+            layout();
 
           // The value as a ratio of the slider (between 0 and 1)
           //alert(data.ratio);
@@ -71,17 +78,50 @@
 
 
         $('#submit').click(function(){
-            progress();
-            var req = $('#req').val();
-            //semanticSearch(req);
-            
-            //semanticRank(0.02);
-            //alert("testFIN");
-            progressOff();
-            layout();
+            submit();
         });
 
+	function submit(){
+		progress();
+            var req = $('#req').val();
+            lastRequest = "\""+req+"\"";
+            var txt = semanticSearch("\""+req+"\" 10 0.02");
+            //var txt = semanticRank(0.02);
+            traitement(txt);
+            progressOff();
+            layout();
+	}
 
+        function newImg(maxwidth,maxheight,src){
+            //var canvas = document.getElementById("canvas");
+            //var ctx = canvas.getContext("2d");
+            var img = new Image();
+            var oc = document.createElement('canvas');
+            img.onload = function () {
+
+                //canvas.height = canvas.width * (img.height / img.width);
+
+                /// step 1
+                var octx = oc.getContext('2d');
+
+                //oc.width = img.width * 0.5;
+                if(img.width > img.height){
+                    oc.width = maxwidth;
+                    oc.height = maxwidth*img.height/img.width;
+                } else {
+                    oc.height = maxheight;
+                    oc.width = maxheight*img.width/img.height;
+                }
+                octx.drawImage(img, 0, 0, oc.width, oc.height);
+
+                /// step 2
+                //octx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5);
+
+                //ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,0, 0, canvas.width, canvas.height);
+            };
+            img.src = src;;
+            return oc;
+        }
         function semanticSearch(search)
         {
             var request=new XMLHttpRequest();
@@ -89,7 +129,7 @@
             var txt = "\""+search+"\" 5 0.05";
             console.log("Request search sent");
             request.send(search); // bloquant
-            traitement(request.responseText);
+            return request.responseText.trim();
         }
         function semanticRank(search)
         {
@@ -97,55 +137,114 @@
             request.open("POST","http://localhost:4500/rank",false);
             console.log("Request rank sent");
             request.send(search); // bloquant
-            traitement(request.responseText);
+            return request.responseText.trim();
+        }
+        function semanticMetaData(url, args, callback)
+        {
+            console.log("semanticMetaData : "+url);
+            var request=new XMLHttpRequest();
+            request.open("POST","http://localhost:4500/meta",true);
+            request.onload = function() {
+                if (request.readyState === 4) { 
+                    if (request.status === 200) {
+                        callback(eval("(" + request.responseText + ')'), args);
+                    } else {
+                        console.error(request.statusText);
+                    }
+                }
+            };
+            request.send(url); // bloquant
+            /*var json = eval("(" + request.responseText + ')');
+            console.log(json);
+            return json;*/
         }
 
+        function setMetaResult(meta, args){
+            var res = args[0];
+            var url = args[1];
+            if(meta && res && url){
+                console.log(meta);
+                meta.title = meta.title.trim();
+
+                var tr = document.createElement("tr");
+                var c1 = document.createElement("td");
+                //c1.style = "min-width : 500px;";
+                var c2 = document.createElement("td");
+
+                var title = document.createElement("a")
+                title.className = "main-link";
+                title.href = url;
+                title.appendChild(document.createTextNode(meta.title));
+
+                var urlsnippet = document.createElement("a");
+                urlsnippet.href = url;
+                urlsnippet.appendChild(document.createTextNode(url));
+                urlsnippet.className = "sublink";
+
+                var snippet = document.createElement("p");
+                snippet.className = "snippet";
+                snippet.appendChild(document.createTextNode(meta.description));
+
+                res.appendChild(title);
+                res.appendChild(document.createElement("br"));
+                res.appendChild(tr);
+                tr.appendChild(c1);
+                tr.appendChild(c2);
+
+                var div = document.createElement("div");
+                div.className= "thumbnail-container";
+                c1.appendChild(div);
+
+                c2.appendChild(urlsnippet);
+                c2.appendChild(document.createElement("br"));
+                c2.appendChild(snippet);
+
+                if(meta.image){
+                    var imgnode = newImg(200,200,meta.image);
+                    //imgnode.src = meta.image;
+                    //imgnode.alt = meta.title;
+                    div.appendChild(imgnode);
+                }
+                if(meta.keywords){
+                    var keywords = document.createElement("span");
+                    keywords.className = "keywords";
+                    keywords.appendChild(document.createTextNode(meta.keywords));
+                    c2.appendChild(document.createElement("br"));
+                    c2.appendChild(keywords);
+                }
+            }
+
+        }
+
+        function removeChildren(elt){
+            while (elt.firstChild) {
+                elt.removeChild(elt.firstChild);
+            }
+        }
 
         function traitement(text){
             var lines = text.split('\n');
-            for(var i = 0;i < lines.length;i++){
+            var coefMax = lines[0];
+            var spanCoef = document.getElementById("coef-max");
+            removeChildren(spanCoef);
+            spanCoef.appendChild(document.createTextNode(coefMax));
+            var div = document.getElementById("listeResultat");
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            for(var i = 1;i < lines.length;i++){
+                //console.log(lines[i]);
                 //code here using lines[i] which will give you each line
                 var url = lines[i];
-                $('#listeResultat').append('<div class="resultat"><a href="'+url+'" class="name">'+getNameURL(url)+'</a><br>');
-                $('#listeResultat').append('<span class="url">'+url+'</span></div>');
+
+                var res = document.createElement("div");
+                res.className = "resultat";
+
+                semanticMetaData(url,[res,url],setMetaResult);
+
+                div.appendChild(res);
             }
 
-        }
-
-        function getNameURL(url){
-            url = url.trim();
-            //console.log(url);
-            //console.log("char : " + url.charAt(url.length-1));
-            if( url.charAt(url.length-1) == '/'){
-                url = url.substring(0,url.length-1);
-            }
-            /*
-            var request=new XMLHttpRequest();
-            console.log("url : "+url);
-            request.open("GET",url,false);
-            //request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-            //request.setRequestHeader("Access-Control-Allow-Origin","*");
-            request.send(null); // bloquant
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(request.responseText,"text/xml");
-            console.log(doc.getElementsByTagName("title")[0]);
-            return ""+doc.getElementsByTagName("title")[0].innerHTML;
-            */
-            //console.log(xmlDoc.getElementByTagName("title"));
-            var title = "";
-            $.ajax({
-                async: true,
-                url: url,
-                success: function(responseHtml) {
-                    var newTitle = $(responseHtml).filter('title').text();
-                    console.log(newTitle);
-                },
-                error: function(  jqXHR, textStatus, errorThrown ) {
-                    console.log( jqXHR+', & '+textStatus+', & '+errorThrown );
-                    title =  "Pas de titre";
-                }
-            });
-            return "title";
         }
 
         function layout(){
@@ -165,7 +264,7 @@
                 border: 'none'
             });
 
-	    $('#webSem').animate({
+            $('#webSem').animate({
                 opacity: '100'
             },50000);
         }

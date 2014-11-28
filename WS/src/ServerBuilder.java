@@ -25,6 +25,16 @@ public class ServerBuilder {
 		return sb;
 	}
 	
+	public ServerBuilder deployMetadataService(String contexte){
+		new ServiceHandler(contexte, serveur){
+			protected Reponse getResponse(String in){
+				System.err.println(in);
+				return Reponse.success(MetaTag.getMetaTags(in));
+			}
+		};
+		return this;
+	}
+	
 	public ServerBuilder deployCmdService(String contexte, final String cmd, final StringFilter filter){
 		
 		/*
@@ -37,6 +47,7 @@ public class ServerBuilder {
 				if(in.equals("")){
 					return Reponse.error("No parameter found");
 				}
+				System.out.println("Execution de la commande : "+cmd + " " + in);
 				String output = Cmd.getOutputString(cmd + " " + in);
 				if( output == null){
 					return Reponse.error("Failed to print the answer");

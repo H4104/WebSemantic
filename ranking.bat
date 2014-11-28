@@ -1,1 +1,1 @@
-java -jar ranking.jar %1
+java -jar ranking.jar %1 %2

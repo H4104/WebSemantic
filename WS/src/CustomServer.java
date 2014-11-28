@@ -38,6 +38,7 @@ public class CustomServer {
 	}
 	
 	public void CreerContexte(String nomCtx, HttpHandler handler){
+		System.out.println("Contexte créé : /"+nomCtx);
 		serveurHttp.createContext("/"+nomCtx, handler);
 	}
 }
