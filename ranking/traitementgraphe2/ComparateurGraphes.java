@@ -6,6 +6,7 @@ package traitementgraphe2;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +108,8 @@ public class ComparateurGraphes {
 
     public void afficher(PrintStream sortie){
         sortie.println("#DEBUT");
-        sortie.println(similariteMax);
+        DecimalFormat format = new DecimalFormat("#0.00");
+        sortie.println(format.format(similariteMax));
         for(Graphe g: getClassement()){
             sortie.println(g.getNom());
         }
