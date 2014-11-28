@@ -96,6 +96,14 @@ div.resultat:hover
 div.resultat
 {
 	color: #303030;
+	vertical-align: text-top;
+}
+
+td {
+    vertical-align: baseline;
+}
+td canvas {
+    vertical-align: top;
 }
 
 a
@@ -111,6 +119,11 @@ a.main-link
 a.sublink
 {
 	color: #a0a0a0;
+}
+
+.thumbnail-container{
+	width: 210px;
+    text-align: center;
 }
 
 .keywords{

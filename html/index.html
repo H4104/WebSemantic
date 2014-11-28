@@ -72,7 +72,8 @@
         function newImg(maxwidth,maxheight,src){
             //var canvas = document.getElementById("canvas");
             //var ctx = canvas.getContext("2d");
-
+            var div = document.createElement("div");
+            div.className= "thumbnail-container";
             var img = new Image();
             var oc = document.createElement('canvas');
             img.onload = function () {
@@ -98,7 +99,8 @@
                 //ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,0, 0, canvas.width, canvas.height);
             };
             img.src = src;
-            return oc;
+            div.appendChild(oc);
+            return div;
         }
         function semanticSearch(search)
         {
@@ -146,6 +148,7 @@
 
                 var tr = document.createElement("tr");
                 var c1 = document.createElement("td");
+                c1.style = "min-width : 500px;"
                 var c2 = document.createElement("td");
 
                 var title = document.createElement("a")
@@ -158,7 +161,7 @@
                 urlsnippet.appendChild(document.createTextNode(url));
                 urlsnippet.className = "sublink";
 
-                var snippet = document.createElement("span");
+                var snippet = document.createElement("p");
                 snippet.className = "snippet";
                 snippet.appendChild(document.createTextNode(meta.description));
 
