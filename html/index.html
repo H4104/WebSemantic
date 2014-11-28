@@ -3,6 +3,7 @@
     <head>
         <!-- En-tête de la page -->
         <meta charset="utf-8" />
+        <meta name="description" content="Ce site web vous propose de rechercher des films, des séries, etc..." />
         <link rel="stylesheet" href="index.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
@@ -17,24 +18,20 @@
 
 
 
-        <title>WebSem 3000 : Le moteur de recherche des vrais bonhommes</title>
+        <title>SemanTV : Le moteur de recherche 100% TV</title>
 
     </head>
 
     <body>
     	<div id="logo">
-    		<h1>WebSem 3000</h1>
-    		Le moteur de recherche des vrais bonhommes
+    		<h1>SemanTV</h1>
+    		Le moteur de recherche 100% TV
             <input id="req" type="text" placeholder="Ne tapez pas votre recherche ici..."/><input id="submit" type="button" value="Rechercher"/>
             <!-- Activate Simple Slider on your input -->
-            <input id="slider" type="text" data-slider-step="1" data-slider-range="0,20" data-slider="true" data-slider-highlight="true"><label id="labelSlider">0,2</label>
-
+            <input id="slider" type="text" data-slider-step="1" data-slider-range="0,20" data-slider="true" data-slider-highlight="true"><label id="labelSlider">0,5</label>
     	</div>
 
     	<div id="listeResultat">
-            <a href="http://sdlbsdflhsdblsd">http://www.le-lien.fdsqlibgsdly</a>
-
-
     	</div>
 
 	    	
@@ -64,8 +61,8 @@
 
         $('#submit').click(function(){
             var req = $('#req').val();
-            //var txt = semanticSearch("\""+req+"\" 10 0.02");
-            var txt = semanticRank(0.02);
+            var txt = semanticSearch("\""+req+"\" 10 0.02");
+            //var txt = semanticRank(0.02);
             traitement(txt);
         });
 

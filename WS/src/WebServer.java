@@ -22,7 +22,7 @@ public class WebServer {
 				//todo: Rien à faire ici ?
 				return in;
 			}
-		});
+		}).deployMetadataService("meta");
 		
 
 	    

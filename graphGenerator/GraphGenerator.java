@@ -19,7 +19,7 @@ public abstract class GraphGenerator {
 	private static final String URI = "#H4104 uri";
 	private static final String END = "#H4104 end";
 	//début de la requête SPARQL
-	private static final String BEGGIN = "SELECT * WHERE{?s ?p ?o. FILTER(?s in ("; 
+	private static final String BEGGIN = "SELECT * FROM <http://dbpedia.org> WHERE{?s ?p ?o. FILTER(?s in ("; 
 	//private static PrintWriter outt;
 	private static Scanner scan;
 	
