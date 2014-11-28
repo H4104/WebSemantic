@@ -22,7 +22,7 @@ public class TraitementGraphe2 {
         FileInputStream input = new FileInputStream(f);
         ComparateurGraphes comp = new ComparateurGraphes();
         comp.creerPaires(input);
-        comp.grouper(Double.parseDouble(args[0]));
+        comp.grouper(Double.parseDouble(args[1]));
         comp.afficher(System.out);
         input.close();
     }
