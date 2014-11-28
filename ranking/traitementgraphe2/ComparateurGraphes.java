@@ -24,11 +24,13 @@ public class ComparateurGraphes {
     private Set<PaireGraphe> setGraphes;
     private Map<Graphe,List<Graphe>> mapGraphes;
     private Set<Graphe> scoresGraphes;
+    private double similariteMax;
 
     ComparateurGraphes(){
         setGraphes = new TreeSet<>();
         mapGraphes = new TreeMap<>();
         scoresGraphes = new TreeSet<>();
+        similariteMax = Double.NEGATIVE_INFINITY;
     }
     
     public void creerPaires(InputStream entree)
@@ -47,6 +49,13 @@ public class ComparateurGraphes {
     
     public void grouper(double seuil){
         List<Graphe> listeCourante;
+        
+        for(PaireGraphe paire:setGraphes){
+            if(paire.getJaccard()>similariteMax){
+                similariteMax = paire.getJaccard();
+            }
+        }
+        
         for(PaireGraphe paire : setGraphes){
             listeCourante = mapGraphes.get(paire.getGraphe1());
             if(listeCourante == null){
@@ -98,6 +107,7 @@ public class ComparateurGraphes {
 
     public void afficher(PrintStream sortie){
         sortie.println("#DEBUT");
+        sortie.println(similariteMax);
         for(Graphe g: getClassement()){
             sortie.println(g.getNom());
         }
