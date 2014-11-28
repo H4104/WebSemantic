@@ -98,6 +98,7 @@ div.resultat
 	color: #303030;
 	vertical-align: text-top;
 	margin-bottom: 10px;
+	min-height: 100px;
 }
 
 td {
@@ -107,10 +108,7 @@ td canvas {
     vertical-align: top;
 }
 
-a
-{
-	margin-left:10px;
-}
+
 a.main-link
 {
 	font-size: 20;

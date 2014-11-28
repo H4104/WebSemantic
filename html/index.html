@@ -69,8 +69,6 @@
         function newImg(maxwidth,maxheight,src){
             //var canvas = document.getElementById("canvas");
             //var ctx = canvas.getContext("2d");
-            var div = document.createElement("div");
-            div.className= "thumbnail-container";
             var img = new Image();
             var oc = document.createElement('canvas');
             img.onload = function () {
@@ -95,9 +93,8 @@
 
                 //ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,0, 0, canvas.width, canvas.height);
             };
-            img.src = src;
-            div.appendChild(oc);
-            return div;
+            img.src = src;;
+            return oc;
         }
         function semanticSearch(search)
         {
@@ -168,6 +165,10 @@
                 tr.appendChild(c1);
                 tr.appendChild(c2);
 
+                var div = document.createElement("div");
+                div.className= "thumbnail-container";
+                c1.appendChild(div);
+
                 c2.appendChild(urlsnippet);
                 c2.appendChild(document.createElement("br"));
                 c2.appendChild(snippet);
@@ -176,7 +177,7 @@
                     var imgnode = newImg(200,200,meta.image);
                     //imgnode.src = meta.image;
                     //imgnode.alt = meta.title;
-                    c1.appendChild(imgnode);
+                    div.appendChild(imgnode);
                 }
                 if(meta.keywords){
                     var keywords = document.createElement("span");
