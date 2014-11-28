@@ -21,4 +21,7 @@ def main():
 
     print("#H4104 end")
 
-main()
+if __name__ == '__main__':
+    sys.stderr.write('DEBUT getText.py\n')
+    main()
+    sys.stderr.write('FIN getText.py\n')

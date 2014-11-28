@@ -47,6 +47,7 @@ def query(q, num):
 	return res
 
 if __name__ == '__main__':
+	sys.stderr.write('DEBUT search.py\n')
 	res = {}
 	if len(sys.argv) < 2:
 		res['error'] = 'You need to specify a query'
@@ -60,4 +61,6 @@ if __name__ == '__main__':
 		open(sys.argv[3], 'w').write(json.dumps(res))
 	else:
 		print json.dumps(res)
+
+	sys.stderr.write('FIN search.py\n')
 
