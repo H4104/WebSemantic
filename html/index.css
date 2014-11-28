@@ -36,7 +36,7 @@ html
 
 body
 {
-	background: url(bg.jpg) 50% 50% fixed no-repeat;
+	background: url(cinema.jpg) 50% 50% fixed no-repeat;
 	display : table;
   	height: 100%;
   	width:100%;
@@ -78,7 +78,7 @@ body
 
 #logo
 {
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(0,0,0,0.7);
 	box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.5);
 	margin:auto;
 	margin-top: 10px;
@@ -223,12 +223,20 @@ a.sublink
 	display:inline-block;
 	position:absolute;
 	text-align: center;
-	top: 10px;
+	top: 0px;
 	right:30px;
 	color:white;
 	z-index: 5;
 	margin-top:15px;
 	visibility: hidden;
+}
+#divSlider p
+{
+	font-size : 12px;
+}
+#divSlider span
+{
+	font-size: 14px;
 }
 
 #slider

@@ -24,7 +24,7 @@
     
 
     <body>
-        <div id="divSlider"><input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"/><label id="labelSlider">0,2</label></div>
+        <div id="divSlider"><p>Coefficient max : <span id="coef-max"></span> </p><input id="slider" type="text" data-slider-step="1" data-slider-range="0,100" data-slider="true" data-slider-highlight="true"/><label id="labelSlider">2</label></div>
 
 	<h1 id="webSem">SemaTV</h1>
 
@@ -62,7 +62,7 @@
             val = val.toFixed(2);
 
             console.log("New val :"+val);
-            traitement(semanticRank(val));
+            traitement(semanticRank(lastRequest+" "+val));
             layout();
 
           // The value as a ratio of the slider (between 0 and 1)
@@ -74,8 +74,9 @@
         $('#submit').click(function(){
             progress();
             var req = $('#req').val();
-            //var txt = semanticSearch("\""+req+"\" 10 0.02");
-            var txt = semanticRank(0.02);
+            lastRequest = "\""+req+"\"";
+            var txt = semanticSearch("\""+req+"\" 10 0.02");
+            //var txt = semanticRank(0.02);
             traitement(txt);
             progressOff();
             layout();
@@ -157,7 +158,7 @@
 
                 var tr = document.createElement("tr");
                 var c1 = document.createElement("td");
-                c1.style = "min-width : 500px;"
+                //c1.style = "min-width : 500px;";
                 var c2 = document.createElement("td");
 
                 var title = document.createElement("a")
@@ -205,13 +206,23 @@
 
         }
 
+        function removeChildren(elt){
+            while (elt.firstChild) {
+                elt.removeChild(elt.firstChild);
+            }
+        }
+
         function traitement(text){
             var lines = text.split('\n');
+            var coefMax = lines[0];
+            var spanCoef = document.getElementById("coef-max");
+            removeChildren(spanCoef);
+            spanCoef.appendChild(document.createTextNode(coefMax));
             var div = document.getElementById("listeResultat");
             while (div.firstChild) {
                 div.removeChild(div.firstChild);
             }
-            for(var i = 0;i < lines.length;i++){
+            for(var i = 1;i < lines.length;i++){
                 //console.log(lines[i]);
                 //code here using lines[i] which will give you each line
                 var url = lines[i];
